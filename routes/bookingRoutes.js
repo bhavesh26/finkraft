@@ -14,7 +14,7 @@ bookingRouter.post('/' , async(req,res)=> {
         })
     }catch(err){
         console.log(err)
-        res.send({
+        res.status(403).json({
             status : 400 , 
             message : "failure"
         })
@@ -25,13 +25,13 @@ bookingRouter.get('/' , async(req,res)=> {
     try{
         const booking = await Booking.find()
         
-        res.send({
+        res.status(200).json({
             data : booking
         })
     }
     catch(err){
         console.log(err)
-        res.send({
+        res.status(404).json({
             status : 404,
             message : err
         })
