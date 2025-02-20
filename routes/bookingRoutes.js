@@ -43,16 +43,45 @@ bookingRouter.get('/:id' , async(req,res)=> {
     
     try{
         const booking = await Booking.findOne({booking_id: bookingId})
+        if(!booking){
+            res.status(403).json({
+                status : 403,
+                message: "booking_not_found"
+            })
+        }
         
-        res.send({
+        res.status(200).json({
             data : booking
         })
     }
     catch(err){
         console.log(err)
-        res.send({
+        res.status(404).json({
             status : 404,
             message : err
+        })
+    }
+})
+
+bookingRouter.delete('/:id' , async(req,res)=> {
+    const bookingId = req.params.id;
+    console.log("here")
+    try{
+        const booking   = await Booking.deleteOne({booking_id : bookingId})
+        if(!booking){
+            res.status(403).json({
+                message : "booking_not_present"
+            })
+        }
+        res.status(200).json({
+            status: 200 , 
+            message : "booking deleted"
+        })
+    }
+    catch(e){
+       res.status(403).json({
+           status : 403,
+            message : e
         })
     }
 })
